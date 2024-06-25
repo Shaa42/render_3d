@@ -5,4 +5,4 @@ if __name__ == "__main__":
     pygame.init()
     renderer3D = MainFrame()
     renderer3D.run()
-# helloi
+# pas hello en fait
