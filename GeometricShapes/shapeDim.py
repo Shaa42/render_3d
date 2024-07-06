@@ -8,33 +8,11 @@ cube_file = "ObjFiles/assets/cube.obj"
 cube_sommets = objread.shape_caracteristics(cube_file, cube_size)[0]
 cube_faces = objread.shape_caracteristics(cube_file, cube_size)[1]
 
-# c_v, c_vt, c_vn = objread.open_file(cube_file)
-
-# cube_sommets = {'A' : [np.array([cube_size, cube_size, cube_size]), ['B', 'E']],
-#                 'B' : [np.array([cube_size, -cube_size, cube_size]), ['C', 'F']],
-#                 'C' : [np.array([-cube_size, -cube_size, cube_size]), ['D', 'G']],
-#                 'D' : [np.array([-cube_size, cube_size, cube_size]), ['A', 'H']],
-#                 'E' : [np.array([cube_size, cube_size, -cube_size]), ['F']],
-#                 'F' : [np.array([cube_size, -cube_size, -cube_size]), ['G']],
-#                 'G' : [np.array([-cube_size, -cube_size, -cube_size]), ['H']],
-#                 'H' : [np.array([-cube_size, cube_size ,-cube_size]), ['E']]}
-
 # Pyramide
-pyramide_size = 500  # Taille de la moitié du côté de la base
+pyramide_size = 500
 pyramide_file = "ObjFiles/assets/basic_pyramid.obj"
 pyramide_sommets = objread.shape_caracteristics(pyramide_file, pyramide_size)[0]
 pyramide_faces = objread.shape_caracteristics(pyramide_file, pyramide_size)[1]
-# print(pyramide_sommets)
-
-# pyramide_height = 200 # Hauteur de la pyramide
-
-# pyramide_sommets = {
-#     'A': [[pyramide_size, pyramide_size, 0], ['B', 'D', 'E']],  # Sommet de la base
-#     'B': [[-pyramide_size, pyramide_size, 0], ['A', 'C', 'E']],  # Sommet de la base
-#     'C': [[-pyramide_size, -pyramide_size, 0], ['B', 'D', 'E']],  # Sommet de la base
-#     'D': [[pyramide_size, -pyramide_size, 0], ['A', 'C', 'E']],  # Sommet de la base
-#     'E': [[0, 0, pyramide_height], ['A', 'B', 'C', 'D']]  # Sommet (apex)
-# }
 
 
 # Tetraedre
@@ -45,16 +23,10 @@ tetraedre_sommets = {'A' : [[tetraedre_size, tetraedre_size, tetraedre_size], ['
                      'E' : [[tetraedre_size, -tetraedre_size, -tetraedre_size], []]}
 
 # Octahedre
-octahedre_size = 150  # Taille des demi-côtés du carré de base, ou hauteur des apex par rapport au centre
-
-octahedre_sommets = {
-    'A': [[octahedre_size, 0, 0], ['D', 'C']],   # (1, 0, 0)
-    'B': [[-octahedre_size, 0, 0], ['D', "C"]],       # (-1, 0, 0)
-    'C': [[0, octahedre_size, 0], ['E', 'F']],   # (0, 1, 0)
-    'D': [[0, -octahedre_size, 0], ['F', 'E']],       # (0, -1, 0)
-    'E': [[0, 0, octahedre_size], ['A', 'B']],   # (0, 0, 1)
-    'F': [[0, 0, -octahedre_size], ['A', 'B']]        # (0, 0, -1)
-}
+octahedre_size = 100  # Taille des demi-côtés du carré de base, ou hauteur des apex par rapport au centre
+octahedre_file = "ObjFiles/assets/octahedron.obj"
+octahedre_sommets = objread.shape_caracteristics(octahedre_file, octahedre_size)[0]
+octahedre_faces = objread.shape_caracteristics(octahedre_file, octahedre_size)[1]
 
 # Cone
 cone_base_radius = 100

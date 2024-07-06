@@ -29,13 +29,6 @@ class _3DRender:
         self.previous_time = time.time()
         self.sommets = {}
         self.faces = []
-        # self.sliderAngle = Slider(self.display, 75, SCREENHEIGHT - 100, 200, 40, min=0, max=360, step=0.5)
-        # self.sliderFOV = Slider(self.display, 75, SCREENHEIGHT - 50, 200, 40, min=256, max=750, step=1)
-        # self.distance_focale = 512
-        # self.xi, self.yi = 0, 0
-        # self.angle = 0
-        # self.vitesse = 0
-        # # self.rotation_cube(self.angle)
         self.maj_var()
 
         
@@ -61,10 +54,6 @@ class _3DRender:
         
         # Black background
         self.display.fill(black)
-        # Slider
-
-        # self.sliderAngle = Slider(self.display, 75, SCREENHEIGHT - 100, 200, 40, min=0, max=360, step=0.5)
-        # self.sliderFOV = Slider(self.display, 75, SCREENHEIGHT - 50, 200, 40, min=256, max=750, step=1)
 
         # self.angle = self.sliderAngle.getValue()
         self.angle += 30 * self.dt
@@ -88,14 +77,12 @@ class _3DRender:
             #     pygame.draw.rect(self.display, white, (self.xi - 5, self.yi - 5, 10, 10))
 
         for faces in self.pos_faces():
-            # print(faces)
             pygame.draw.polygon(self.display, white, faces)
             # Open the possibility to apply color to face
             
         # Dessine arrêtes
         for arretes in self.pos_arretes():
-            pygame.draw.line(self.display, purple, arretes[0], arretes[1])
-        # print(self.pos_faces())
+            pygame.draw.line(self.display, purple, arretes[0], arretes[1], 2)
 
         
         pygame_widgets.update(pygame.event.get())
@@ -107,7 +94,7 @@ class _3DRender:
 
 # ------------------------------------------------METHODS------------------------------------------------ #
 
-    def render_3dto2d(self, angle : float) -> dict[str, list]: # ew, à changer ------------------------------------------------ #
+    def render_3dto2d(self, angle : float) -> dict[str, list]:
         """
         R3 -> R2 Transform
         Convert from "xyz" coordinates to "xy" coordinates.
@@ -119,47 +106,51 @@ class _3DRender:
         for sommets, coord in self.sommets.items():
             x, y, z = coord[0]
 
-            # Rotation
-            mat_pos_xyz = np.mat([[x],
-                                 [y],
-                                 [z]])
+            # Rotation x
+            x, y, z = self.rotation("x", angle_rad, x, y, z)
             
+            # Rotation y
+            x, y, z= self.rotation("y", angle_rad, x, y, z)
             
-            mat_rotation = np.mat([[np.cos(angle_rad), -np.sin(angle_rad), 0],
-                                    [np.sin(angle_rad), np.cos(angle_rad), 0],
-                                    [0, 0, 1]])
-
+            # Rotation z
+            x, y, z = self.rotation("z", angle_rad, x, y, z)
             
-            mat_nouv_xyz = np.matmul(mat_rotation, mat_pos_xyz)
-
-            x = int(mat_nouv_xyz.item(0))
-            y = int(mat_nouv_xyz.item(1))
-            z = int(mat_nouv_xyz.item(2))
-            
-            mat_pos2_xyz = np.mat([[x],
-                                 [y],
-                                 [z]])
-
-            mat_rotation_2 = np.mat([[1, 0, 0],
-                                  [0, np.cos(angle_rad), -np.sin(angle_rad)],
-                                  [0, np.sin(angle_rad), np.cos(angle_rad)]])
-            
-            mat_resultat = np.matmul(mat_rotation_2, mat_pos2_xyz)
-
-            x = int(mat_resultat.item(0))
-            y = int(mat_resultat.item(1))
-            z = int(mat_resultat.item(2))
-
-            
-
-            # print(x, y, z)
-
             # Projection
             xi = ((x * distance_focale) // (z + self.distance_focale + 256)) + milieu_w
             yi = ((y * distance_focale) // (z + self.distance_focale + 256)) + milieu_h
             lst_proj[sommets] = (xi, yi)
             
         return lst_proj
+
+
+
+    def rotation(self, rot, angle_rad, x, y , z):
+        if rot == "x":
+            mat_rotation = np.mat([[np.cos(angle_rad), -np.sin(angle_rad), 0],
+                                   [np.sin(angle_rad), np.cos(angle_rad) , 0],
+                                   [                0,                  0, 1]])
+        if rot == "y":
+            mat_rotation = np.mat([[np.cos(angle_rad) , 0, np.sin(angle_rad)],
+                                   [                 0, 1,                 0],
+                                   [-np.sin(angle_rad), 0, np.cos(angle_rad)]]) 
+            
+        if rot == "z":
+            mat_rotation = np.mat([[1,                 0,                  0],
+                                   [0, np.cos(angle_rad), -np.sin(angle_rad)],
+                                   [0, np.sin(angle_rad), np.cos(angle_rad)]])
+            
+        mat_pos_xyz = np.mat([[x],
+                              [y],
+                              [z]])
+        mat_nouv_xyz = np.matmul(mat_rotation, mat_pos_xyz)
+        
+        x = int(mat_nouv_xyz.item(0))
+        y = int(mat_nouv_xyz.item(1))
+        z = int(mat_nouv_xyz.item(2))
+        
+        return x, y, z
+        
+
 
     def pos_arretes(self): # Changer en pos_surface(self)
         """
@@ -178,6 +169,8 @@ class _3DRender:
                     # print(lst_arretes)
         return lst_arretes
     
+    
+    
     def pos_faces(self):
         """
         Return an array which contain each faces with the "xy" coordinates of the face
@@ -193,8 +186,9 @@ class _3DRender:
             lst_faces.append((p1, p2, p3))
             
         return lst_faces
-            
-            
+                  
+                  
+                      
     def maj_var(self):
         """
         Init variables in __init__

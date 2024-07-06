@@ -5,12 +5,12 @@ from Settings import *
 from GeometricShapes.shapeDim import *
 from classGameStateManager import GameStateManager
 from classMenuSelection import Menu
-from GeometricShapes.classCube import Cube
-from GeometricShapes.classPyramid import Pyramid
-from GeometricShapes.classTetraedre import Tetraedre
-from GeometricShapes.classOctahedron import Octahedron
-from GeometricShapes.classCone import Cone
-from GeometricShapes.classWhatever import Whatever
+from GeometricShapes.classShapes.classCube import Cube
+from GeometricShapes.classShapes.classPyramid import Pyramid
+from GeometricShapes.classShapes.classTetraedre import Tetraedre
+from GeometricShapes.classShapes.classOctahedron import Octahedron
+from GeometricShapes.classShapes.classCone import Cone
+from GeometricShapes.classShapes.classWhatever import Whatever
 
 class MainFrame:
     def __init__(self):

@@ -1,13 +1,6 @@
 import numpy as np
 
 
-
-"""
-Functions
-To add or change :
-    -> Normalize the data to change the scale (having the value in [0, 1] while keeping the ratio)
-"""
-
 # lecture et structuration des données :
 def read_vertex_data(value : list[str]) -> list[float]:
     return [
