@@ -29,23 +29,28 @@ octahedre_sommets = objread.shape_caracteristics(octahedre_file, octahedre_size)
 octahedre_faces = objread.shape_caracteristics(octahedre_file, octahedre_size)[1]
 
 # Cone
-cone_base_radius = 100
-cone_height = 200
-num_base_points = 20
+cone_size = 100
+cone_file = "ObjFiles/assets/cone.obj"
+cone_sommets = objread.shape_caracteristics(cone_file, cone_size)[0]
+cone_faces = objread.shape_caracteristics(cone_file, cone_size)[1]
 
-# Initialiser le dictionnaire des sommets
-cone_sommets = {}
+# cone_base_radius = 100
+# cone_height = 200
+# num_base_points = 20
 
-# Ajouter les points de la base circulaire
-for i in range(num_base_points):
-    angle = 2 * math.pi * i / num_base_points
-    x = cone_base_radius * math.cos(angle)
-    y = cone_base_radius * math.sin(angle)
-    next_point = f'B{(i + 1) % num_base_points + 1}'
-    cone_sommets[f'B{i + 1}'] = [[x, y, 0], ['A', next_point]]  # Chaque point de la base est connecté à l'apex et à son voisin de droite
+# # Initialiser le dictionnaire des sommets
+# cone_sommets = {}
 
-# Ajouter le sommet du cône
-cone_sommets['A'] = [[0, 0, cone_height], [f'B{i + 1}' for i in range(num_base_points)]]
+# # Ajouter les points de la base circulaire
+# for i in range(num_base_points):
+#     angle = 2 * math.pi * i / num_base_points
+#     x = cone_base_radius * math.cos(angle)
+#     y = cone_base_radius * math.sin(angle)
+#     next_point = f'B{(i + 1) % num_base_points + 1}'
+#     cone_sommets[f'B{i + 1}'] = [[x, y, 0], ['A', next_point]]  # Chaque point de la base est connecté à l'apex et à son voisin de droite
+
+# # Ajouter le sommet du cône
+# cone_sommets['A'] = [[0, 0, cone_height], [f'B{i + 1}' for i in range(num_base_points)]]
 
 # Whatever
 file_whatever = 'ObjFiles/assets/frog.obj'

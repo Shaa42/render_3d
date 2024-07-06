@@ -1,5 +1,5 @@
 SCREENWIDTH, SCREENHEIGHT = 1280, 720
-FPS = 240
+FPS = 480
 
 milieu_w, milieu_h = 1280 // 2, 720 // 2
 
