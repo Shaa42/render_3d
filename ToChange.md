@@ -4,3 +4,4 @@ Functions to add or change :
 - 3d render:
     -> Add raycasting to detect which surface is in front of the camera and apply shadow to create
     a depth effect.
+    -> Maybe use GPU
