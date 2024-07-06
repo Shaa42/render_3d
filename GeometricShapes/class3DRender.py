@@ -3,11 +3,20 @@ import pygame_widgets
 from pygame_widgets.slider import Slider
 import numpy as np
 import time
+import random as rd
+
 from Settings import *
 
 
 class _3DRender:
     def __init__(self, display, gameStateManager):
+        """
+        Init method
+        - Inputs :
+            * Display : pygame screen.
+            * gameStateManager : Manage the different scenes.
+        """
+        
         # Pygame init
         pygame.init()
 
@@ -19,6 +28,7 @@ class _3DRender:
         self.clock = pygame.time.Clock()
         self.previous_time = time.time()
         self.sommets = {}
+        self.faces = []
         # self.sliderAngle = Slider(self.display, 75, SCREENHEIGHT - 100, 200, 40, min=0, max=360, step=0.5)
         # self.sliderFOV = Slider(self.display, 75, SCREENHEIGHT - 50, 200, 40, min=256, max=750, step=1)
         # self.distance_focale = 512
@@ -27,8 +37,13 @@ class _3DRender:
         # self.vitesse = 0
         # # self.rotation_cube(self.angle)
         self.maj_var()
+
         
     def run(self):
+        """
+        Main loop of the program
+        """
+        
         # pygame.time.delay(10)
         self.now = time.time()
         self.dt = self.now - self.previous_time
@@ -72,9 +87,15 @@ class _3DRender:
             # else:
             #     pygame.draw.rect(self.display, white, (self.xi - 5, self.yi - 5, 10, 10))
 
+        for faces in self.pos_faces():
+            # print(faces)
+            pygame.draw.polygon(self.display, white, faces)
+            # Open the possibility to apply color to face
+            
         # Dessine arrêtes
         for arretes in self.pos_arretes():
-            pygame.draw.line(self.display, white, arretes[0], arretes[1])
+            pygame.draw.line(self.display, purple, arretes[0], arretes[1])
+        # print(self.pos_faces())
 
         
         pygame_widgets.update(pygame.event.get())
@@ -82,7 +103,17 @@ class _3DRender:
         pygame.display.flip()
         self.clock.tick(FPS)
 
-    def render_3dto2d(self, angle : float) -> dict[str, list]: # ew, à changer ------------------------------------------------
+
+
+# ------------------------------------------------METHODS------------------------------------------------ #
+
+    def render_3dto2d(self, angle : float) -> dict[str, list]: # ew, à changer ------------------------------------------------ #
+        """
+        R3 -> R2 Transform
+        Convert from "xyz" coordinates to "xy" coordinates.
+        (Also do the rotation which is something to change asap -> put every rotation into its own method)
+        """
+        
         angle_rad = (angle * np.pi) / 180
         lst_proj = {}
         for sommets, coord in self.sommets.items():
@@ -128,11 +159,13 @@ class _3DRender:
             yi = ((y * distance_focale) // (z + self.distance_focale + 256)) + milieu_h
             lst_proj[sommets] = (xi, yi)
             
-        # print(lst_proj)
-
         return lst_proj
 
     def pos_arretes(self): # Changer en pos_surface(self)
+        """
+        Return an array which contain each edges with the "xy" position of the two vertices.
+        """
+        
         lst_arretes = []
         lst_coord = self.render_3dto2d(self.angle)    # Dictionnaire ->{'Sommet' : (pos_x, pos_y)}
         for origine, sommets in self.sommets.items():
@@ -145,7 +178,29 @@ class _3DRender:
                     # print(lst_arretes)
         return lst_arretes
     
+    def pos_faces(self):
+        """
+        Return an array which contain each faces with the "xy" coordinates of the face
+        """
+        lst_faces = []
+        lst_coord = self.render_3dto2d(self.angle)
+        # print(lst_coord)
+        for face in self.faces:
+            p1 = lst_coord[face[0]]
+            p2 = lst_coord[face[1]]
+            p3 = lst_coord[face[2]]
+            
+            lst_faces.append((p1, p2, p3))
+            
+        return lst_faces
+            
+            
     def maj_var(self):
+        """
+        Init variables in __init__
+        -> Reset position and slider each we are changing scene
+        """
+        
         self.sliderFOV = Slider(self.display, 75, SCREENHEIGHT - 50, 200, 40, min=256, max=750, step=1)
         self.distance_focale = 512
         self.xi, self.yi = 0, 0

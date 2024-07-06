@@ -6,6 +6,7 @@ class Tetraedre(_3DRender):
         super().__init__(display, gameStateManager)
         self.sommets = tetraedre_sommets
         
+        
     def run(self):
         super().run()
     

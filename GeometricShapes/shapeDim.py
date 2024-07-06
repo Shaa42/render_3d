@@ -5,7 +5,8 @@ import numpy as np
 # Cube
 cube_size = 100
 cube_file = "ObjFiles/assets/cube.obj"
-cube_sommets = objread.shape_caracteristics(cube_file, cube_size)
+cube_sommets = objread.shape_caracteristics(cube_file, cube_size)[0]
+cube_faces = objread.shape_caracteristics(cube_file, cube_size)[1]
 
 # c_v, c_vt, c_vn = objread.open_file(cube_file)
 
@@ -21,7 +22,8 @@ cube_sommets = objread.shape_caracteristics(cube_file, cube_size)
 # Pyramide
 pyramide_size = 500  # Taille de la moitié du côté de la base
 pyramide_file = "ObjFiles/assets/basic_pyramid.obj"
-pyramide_sommets = objread.shape_caracteristics(pyramide_file, pyramide_size)
+pyramide_sommets = objread.shape_caracteristics(pyramide_file, pyramide_size)[0]
+pyramide_faces = objread.shape_caracteristics(pyramide_file, pyramide_size)[1]
 # print(pyramide_sommets)
 
 # pyramide_height = 200 # Hauteur de la pyramide
@@ -76,5 +78,6 @@ cone_sommets['A'] = [[0, 0, cone_height], [f'B{i + 1}' for i in range(num_base_p
 # Whatever
 file_whatever = 'ObjFiles/assets/frog.obj'
 size_whatever = 3
-whatever_sommets = objread.shape_caracteristics(file_whatever, size_whatever)
+whatever_sommets = objread.shape_caracteristics(file_whatever, size_whatever)[0]
+whatever_faces = objread.shape_caracteristics(file_whatever, size_whatever)[1]
 # print(whatever_sommets)

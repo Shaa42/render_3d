@@ -94,9 +94,10 @@ def open_file(obj_file : str) -> tuple[list, list, list, list]:
 def shape_caracteristics(file : str, size):
     v, vt, vn, f = open_file(file)
     # print(f)
-    lst_vertices = get_face_vertex(f) # Probleme : récupère que la premiere composante, couillon ------------------------------ #
+    lst_vertices = get_face_vertex(f) # Liste de chaque face : [(P0, P1, P2) -> Face, ...]
     # print(lst_vertices)
     lst_notation = convert_to_vertex_notation(lst_vertices)
+    # print(lst_notation)
     sommets = {}
     for points_index in range(len(v)):
         points = v[points_index]
@@ -106,7 +107,7 @@ def shape_caracteristics(file : str, size):
         for element in elements[1:]:
             if element not in sommets[elements[0]][1]:
                 sommets[elements[0]][1].append(element)
-    return sommets
+    return sommets, lst_notation
     
 """
 Main
@@ -114,4 +115,4 @@ Main
 
 if __name__ == "__main__":
     sommets = shape_caracteristics("ObjFiles/assets/sphere.obj", 100)
-    print(sommets)
+    # print(sommets)
