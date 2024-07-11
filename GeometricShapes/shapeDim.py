@@ -1,6 +1,4 @@
-import math
 import ObjFiles.ObjReader as objread
-import numpy as np
 
 # Cube
 cube_size = 100
@@ -9,18 +7,17 @@ cube_sommets = objread.shape_caracteristics(cube_file, cube_size)[0]
 cube_faces = objread.shape_caracteristics(cube_file, cube_size)[1]
 
 # Pyramide
-pyramide_size = 500
-pyramide_file = "ObjFiles/assets/basic_pyramid.obj"
+pyramide_size = 100
+pyramide_file = "ObjFiles/assets/monkey.obj"
 pyramide_sommets = objread.shape_caracteristics(pyramide_file, pyramide_size)[0]
 pyramide_faces = objread.shape_caracteristics(pyramide_file, pyramide_size)[1]
 
 
 # Tetraedre
-tetraedre_size = 100
-tetraedre_sommets = {'A' : [[tetraedre_size, tetraedre_size, tetraedre_size], ['B', 'E']],
-                     'B' : [[tetraedre_size, -tetraedre_size, tetraedre_size], ['C', 'E']],
-                     'C' : [[-tetraedre_size, -tetraedre_size, tetraedre_size], ['A', 'E']],
-                     'E' : [[tetraedre_size, -tetraedre_size, -tetraedre_size], []]}
+tetraedre_size = 150
+tetraedre_file = "ObjFiles/assets/human_model.obj"
+tetraedre_sommets = objread.shape_caracteristics(tetraedre_file, tetraedre_size)[0]
+tetraedre_faces = objread.shape_caracteristics(tetraedre_file, tetraedre_size)[1]
 
 # Octahedre
 octahedre_size = 100  # Taille des demi-côtés du carré de base, ou hauteur des apex par rapport au centre
@@ -53,8 +50,8 @@ cone_faces = objread.shape_caracteristics(cone_file, cone_size)[1]
 # cone_sommets['A'] = [[0, 0, cone_height], [f'B{i + 1}' for i in range(num_base_points)]]
 
 # Whatever
-file_whatever = 'ObjFiles/assets/frog.obj'
-size_whatever = 3
+file_whatever = 'ObjFiles/assets/monkey.obj'
+size_whatever = 250
 whatever_sommets = objread.shape_caracteristics(file_whatever, size_whatever)[0]
 whatever_faces = objread.shape_caracteristics(file_whatever, size_whatever)[1]
 # print(whatever_sommets)

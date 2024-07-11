@@ -35,18 +35,23 @@ def get_face_vertex(faces : list[str]) -> list[list[int]]:
         temp_vertex = []
         face = faces[face_index]
         for element in face :
-            temp_vertex.append(int(extract(element)))
+            # print(element)
+            temp_vertex.append(int(extract(element)[0]))
+            # print(extract(element))
         lst_vertex.append(temp_vertex)
     return lst_vertex
 
-def extract(string : str) -> str:
+def extract(string : str) -> list[str]:
     tmp = ''
+    lst_char = []
     for character in string:
         if character != '/':
             tmp += character
         if character == '/':
-            return tmp
-    return tmp
+            lst_char.append(tmp)
+            tmp = ''
+    lst_char.append(tmp)
+    return lst_char
 
 def convert_to_vertex_notation(vertices):
     notation_list = []
@@ -86,20 +91,34 @@ def open_file(obj_file : str) -> tuple[list, list, list, list]:
 
 def shape_caracteristics(file : str, size):
     v, vt, vn, f = open_file(file)
-    # print(f)
+    # print(vn)
     lst_vertices = get_face_vertex(f) # Liste de chaque face : [(P0, P1, P2) -> Face, ...]
     # print(lst_vertices)
     lst_notation = convert_to_vertex_notation(lst_vertices)
     # print(lst_notation)
+    
+    # Crée le dictionnaire des sommets et ajoute les coordonnées 
     sommets = {}
     for points_index in range(len(v)):
         points = v[points_index]
-        sommets[f'S{points_index + 1}'] = [np.array(points) * size, []]
+        sommets[f'S{points_index + 1}'] = [np.array(points) * size, [], []]
+    
+    # Ajoute les sommets voisins
     for i in range(len(lst_notation)):
         elements = lst_notation[i]
         for element in elements[1:]:
             if element not in sommets[elements[0]][1]:
                 sommets[elements[0]][1].append(element)
+                
+    # Ajoute les coordonnées du vecteur normal associé au point
+    for i in range(len(f)):
+        faces = f[i]
+        for face in faces:
+            indFace = extract(face)[0]
+            indNormal = int(extract(face)[2]) - 1
+            if len(sommets[f"S{indFace}"][2]) < 1:
+                sommets[f"S{indFace}"][2] = vn[indNormal]
+        
     return sommets, lst_notation
     
 """
@@ -107,5 +126,6 @@ Main
 """
 
 if __name__ == "__main__":
-    sommets = shape_caracteristics("ObjFiles/assets/sphere.obj", 100)
+    sommets = shape_caracteristics("ObjFiles/assets/cube.obj", 100)
     # print(sommets)
+    print(np.dot((1, 0, 0), (1, 0, 0)))
